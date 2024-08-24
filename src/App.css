@@ -1,0 +1,8 @@
+.isDark{
+  background-color: dark;
+  color: light
+}
+.islight{
+  background-color: light;
+  color: dark
+}
