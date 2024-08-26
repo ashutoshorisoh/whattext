@@ -1,51 +1,32 @@
-import React, { useState } from "react";
-import { Navigate, Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Login from "./Component/Login";
+import PageNotFound from "./Component/PageNotFound"
 import Home from "./Component/Home";
-import Chat from "./Component/Chat";
-import PageNotFound from "./Component/PageNotFound";
-import User from "./Component/User";
-
+import ProtectedRoute from "./Component/ProtectedRoute";
+import { useState } from "react";
+import { DarkModeProvider } from "./Component/DarkModeContext";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-
+  // loggdeIn -> information , user data -> CRUD
   return (
     <>
-      
+    <DarkModeProvider>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Protected loggedIn={loggedIn}>
-              <Home setLoggedIn={setLoggedIn} />
-            </Protected>
-          }
-        />
-        <Route
-          path="/chat/:uniqueID"
-          element={
-            <Protected loggedIn={loggedIn}>
-              <Chat />
-            </Protected>
-          }
-        />
-        <Route
-          path="/login"
-          element={<Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
-        />
-        <Route path="*" element={<PageNotFound />} />
+        <Route path="/" element={<ProtectedRoute>
+          <Home ></Home>
+        </ProtectedRoute>}></Route>
+
+      <Route path="/:chatid" element={
+          <ProtectedRoute><Home></Home></ProtectedRoute>
+        }></Route>
+
+        <Route path="/login" element={<Login ></Login>}></Route>
+        <Route path="*" element={< PageNotFound />} />
       </Routes>
+      </DarkModeProvider>
     </>
-  );
+  )
 }
 
-function Protected({ loggedIn, children }) {
-  if (loggedIn) {
-    return children; // Render the child components if logged in
-  } else {
-    return <Navigate to="/login" />; // Redirect to login if not logged in
-  }
-}
+export default App
 
-export default App;

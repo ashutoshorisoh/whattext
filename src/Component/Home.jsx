@@ -1,22 +1,15 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { signOut } from 'firebase/auth';
-import { auth } from '../../firebase.config';
+import ChatPanel from './ChatPanel';
+import ChatWindow from './ChatWindow';
 
-function Home({ setLoggedIn }) {
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await signOut(auth);
-    setLoggedIn(false);
-    navigate("/login");
-  };
-
+function Home() {
   return (
-    <div>
-      Home
-      <button onClick={handleLogout}>Logout</button>
-    </div>
+    <main className='w-full h-screen'>
+      <div className="flex h-full">
+        <ChatPanel />
+        <ChatWindow />
+      </div>
+    </main>
   );
 }
 
